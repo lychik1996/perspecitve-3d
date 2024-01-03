@@ -3,16 +3,20 @@ import { useEffect } from 'react';
 function App() {
   useEffect(() => {
     const handleMouseMove = (e) => {
+      const moveX = (e.clientX || e.touches[0].clientX) - window.innerWidth / 2;
+    const moveY = (e.clientY || e.touches[0].clientY) - window.innerHeight / 2;
       Object.assign(document.documentElement, {
         style: `
-          --move-x:${(e.clientX - window.innerWidth / 2) * -0.005}deg;
-          --move-y:${(e.clientY - window.innerHeight / 2) * 0.01}deg;
+          --move-x:${moveX * -0.005}deg;
+          --move-y:${moveY * 0.01}deg;
         `,
       });
     };
     document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('touchmove',handleMouseMove);
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('tuchmove',handleMouseMove);
     };
   }, []);
   useEffect(() => {
